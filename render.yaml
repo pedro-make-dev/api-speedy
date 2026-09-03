@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: api-taxa-entrega
+    runtime: python
+    plan: starter
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      # sync: false = o Render pede o valor no painel e não guarda no Git
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: ENDERECO_ORIGEM
+        value: "R. José Barros Magaldi, 1247 - Jardim São João, São Paulo - SP, 05815-010"
+      # Vazia = endpoint aberto. Preencha no painel para exigir o header X-API-Key.
+      - key: API_KEY
+        sync: false
